@@ -8,7 +8,7 @@ class PDFReportMaker(FPDF):
         self.set_font('arial', 'I', 12)
         self.cell(0, 10, 'Placeholder for the header', 1, 0, 'C')
         self.image('logo.png', x=175, y=10, w=15, type='', link='')
-        self.ln(30)
+        self.ln(25)
 
     def footer(self):
         self.set_font('arial', 'I', 12)
@@ -48,7 +48,7 @@ class PDFReportMaker(FPDF):
     def write_left_from_textfile(self, txtfile):
         pdf.set_xy(10, 155)
         pdf.set_font('arial', '', 12)
-        f = open(textfile, "r")
+        f = open(txtfile, "r")
         for x in f:
             pdf.multi_cell(w=90, h=10, txt=x, border=1,
                            align='L', fill=False)
