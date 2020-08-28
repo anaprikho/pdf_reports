@@ -1,0 +1,17 @@
+from PDFReport import PDFReport
+
+
+class PDFReportImages(PDFReport):
+
+ pdf = PDFReport()
+ pdf.add_page() #create a pdf file
+
+ name = "Report only with images" #title placed in the report
+ image = 'image.png' #image should be placed
+
+ pdf.name(name) #call functon to set the report name from parent class
+ pdf.insert_image(image) #call functon to set the image from parent class
+
+
+ pdf.output('ReportImages.pdf', dest='F')  # name the pdf file and store it in the projet's folder
+
