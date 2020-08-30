@@ -2,20 +2,47 @@ import pandas as pd
 from fpdf import FPDF
 import numpy as np
 
+#global headertext, footertext
 class PDFReport(FPDF):
 
+    # def __init__(self, headertext, footertext, name):
+    #     super().__init__()
+    #     self.headertext = headertext
+    #     self.footertext = footertext
+    #     self.name = name
+    #     self.add_page()
+    #     self.set_header(headertext)
+    #     self.set_name(name)
+    #     self.set_footer(footertext)
+
     def header(self):
+        headertext
+
         self.set_font('arial', 'I', 12)
-        self.cell(0, 10, 'Placeholder for the header', 1, 0, 'C')
+        self.cell(0, 10, headertext, 1, 0, 'C')
         self.image('logo.png', x=175, y=10, w=15, type='', link='')
         self.ln(25)
 
     def footer(self):
+        global footertext
+
         self.set_font('arial', 'I', 12)
         self.set_y(-20)
-        self.cell(0, 10, 'Placeholder for the footer/Page ' + str(self.page_no()), 1, 0, 'C')
+        self.cell(0, 10, footertext + "/Page " + str(self.page_no()), 1, 0, 'C')
 
-    def name(self, name):
+    # def set_header(self, headertext):
+    #     self.set_font('arial', 'I', 12)
+    #     self.cell(0, 10, headertext, 1, 0, 'C')
+    #     self.image('logo.png', x=175, y=10, w=15, type='', link='')
+    #     self.ln(25)
+    #
+    # def set_footer(self, footertext):
+    #     self.set_y(297)
+    #     self.set_font('arial', 'I', 12)
+    #     self.set_y(-20)
+    #     self.cell(0, 10, footertext + "/Page " + str(self.page_no()), 1, 0, 'C')
+
+    def set_name(self, name):
         self.set_xy(0, 0)
         self.set_font('arial', 'B', 20)
         self.cell(10)  # move to 10 cm to the right
@@ -42,8 +69,15 @@ class PDFReport(FPDF):
 
         self.ln(10)
 
-    def insert_image(self, image):
-        self.image(image, x=None, y=None, w=40, type='', link='') #x=130, y=90
+    def insert_image(self, image, width):
+        self.image(image, x=None, y=None, w=width, type='', link='') #x=130, y=90
+
+    # def insert_image(self, image, i):
+    #     if i == 1:
+    #         self.image(image, x=None, y=None, w=40, type='', link='')
+    #     else:
+    #         for i in range(0, i-1):
+    #             self.image(image, x=None, y=None, w=80, type='', link='')
 
     def write_left_from_textfile(self, txtfile):
         self.set_xy(10, 155)
@@ -99,13 +133,16 @@ text = "Placeholder for the text. Overwrite the line with your text." \
        "Placeholder for the text. Overwrite the line with your text." \
        "Placeholder for the text. Overwrite the line with your text." \
        "Placeholder for the text. Overwrite the line with your text." \
-       "Placeholder for the text. Overwrite the line with your text." \
+       "Placeholder for the text. Overwrite the line with your text."
+
+headertext = "Header"
+footertext = "Footer"
 
 pdf = PDFReport()
 pdf.add_page()
 # pdf.set_margins(left=10, top=10, right=10)
 # #pdf.line(105, 0, 105, 297) #line in the middle of the page A4 (210 mm * 297 mm)
-pdf.set_xy(0, 0)
+# pdf.set_xy(0, 0)
 
 # pdf.title(title)
 # pdf.table(df)
@@ -116,4 +153,4 @@ pdf.set_xy(0, 0)
 # pdf.ln(20)
 # pdf.write_from_excel()
 
-# pdf.output('Report.pdf', dest='F') #local file
+pdf.output('Report.pdf', dest='F') #local file
