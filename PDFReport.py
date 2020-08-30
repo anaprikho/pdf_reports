@@ -1,17 +1,15 @@
 import pandas as pd
 from fpdf import FPDF
 import numpy as np
-from fpdf.php import sprintf
 
-
+#---The class defines all the functions used for creation a pdf report
 class PDFReport(FPDF):
 
     #constructor of the class takes parameters as headertext, footertext and name(title) of the report
-    def __init__(self, headertext, footertext, name):
+    def __init__(self, headertext, footertext):
         super().__init__()
         self.headertext = headertext
         self.footertext = footertext
-        self.name = name
 
     def header(self):
         self.set_font('arial', 'I', 12)

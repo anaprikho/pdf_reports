@@ -8,12 +8,13 @@ class PDFReportImages(PDFReport):
  footertext = "Placeholder for the footer"  #set text for the footer
  name = "Report only with images"  # title placed in the report
 
- pdf = PDFReport(headertext, footertext, name)#create a PDFReport object
+ pdf = PDFReport(headertext, footertext)#create a PDFReport object
+ pdf.add_page()
+ pdf.set_name(name)
 
  image = 'image.png' #image should be placed
-
- pdf.name(name) #call functon to set the report name from parent class
- # pdf.insert_image(image, 40) #call functon from parent class to insert an image and give its width
+ pdf.insert_image(image, 90) #call functon from parent class to insert an image and give its width
+                             #the size of the A4 page is 210*297 mm
 
  pdf.output('ReportImages.pdf', dest='F')  #name the pdf file and store it in the projet's folder
 
