@@ -1,30 +1,18 @@
 from PDFReport import PDFReport
 
-
+#---The class create an object of the PDFReport class
+#---and placed images at the specific coordinates
 class PDFReportImages(PDFReport):
-
- def __init_(self, headertext, footertext ):
-  super().__init__()
-  self.headertext = headertext
-  self.footertext = footertext
-
- # def __init__(self, headertext, footertext, name):
- #  super().__init__()
- #  self.add_page()
- #  self.set_header(headertext)
- #  self.set_footer(footertext)
- #  self.set_name(name)
 
  headertext = "Placeholder for the header"  #set text for the header
  footertext = "Placeholder for the footer"  #set text for the footer
  name = "Report only with images"  # title placed in the report
 
- pdf = PDFReport(headertext, footertext, name)
- pdf.add_page() #create a pdf file
+ pdf = PDFReport(headertext, footertext, name)#create a PDFReport object
 
  image = 'image.png' #image should be placed
 
- # pdf.name(name) #call functon to set the report name from parent class
+ pdf.name(name) #call functon to set the report name from parent class
  # pdf.insert_image(image, 40) #call functon from parent class to insert an image and give its width
 
  pdf.output('ReportImages.pdf', dest='F')  #name the pdf file and store it in the projet's folder
