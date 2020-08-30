@@ -13,8 +13,11 @@ class PDFReportImages(PDFReport):
  pdf.set_name(name)
 
  image = 'image.png' #image should be placed
- pdf.insert_image(image, 90) #call functon from parent class to insert an image and give its width
+ #pdf.insert_image(image, 90) #call functon from parent class to insert an image and give its width
                              #the size of the A4 page is 210*297 mm
 
+ pdf.image('image.png', x = 10, y = 75, w = 90)
+ pdf.image('image.png', x = pdf.get_x() + 100, y = 75, w = 90)
+ pdf.image('image.png', x = 10, y = pdf.get_y() + 90, w = 90)
  pdf.output('ReportImages.pdf', dest='F')  #name the pdf file and store it in the projet's folder
 
