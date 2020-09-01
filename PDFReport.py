@@ -10,12 +10,13 @@ class PDFReport(FPDF):
         super().__init__()
         self.headertext = headertext
         self.footertext = footertext
+        self.set_margins(left=10, top=10, right=10)
 
     def header(self):
         self.set_font('arial', 'I', 12)
         self.cell(0, 10, self.headertext, 1, 0, 'C')
-        #self.image('logo.png', x=175, y=10, w=15, type='', link='')
-        self.ln(25)
+        self.image('logo.png', x=175, y=10, w=15, type='', link='')
+        self.ln(15)
 
     def footer(self):
         self.set_font('arial', 'I', 12)
@@ -23,13 +24,11 @@ class PDFReport(FPDF):
         self.cell(0, 10, self.footertext + "/Page " + str(self.page_no()), 1, 0, 'C')
 
     #set a report's title
-    def set_name(self, name):
-        self.set_xy(0, 0)
+    def set_name(self, name, y):
+        self.set_xy(10, y)
         self.set_font('arial', 'B', 20)
-        self.cell(10)  # move to 10 cm to the right
-        self.cell(0, 50, " ", 1, 2, 'C')
         self.cell(0, 20, '%s' % str(name), 1, 2, 'C')
-        self.cell(0, 15, " ", 1, 2, 'C')
+        self.ln(15)
 
     #create a table from a dataframe
     def table(self, df):
@@ -108,9 +107,6 @@ class PDFReport(FPDF):
 # df['Number'] = ["1", "2", "3", "4"]
 # df['A'] = [3, 4, 5, 3]
 # df['B'] = [3, 3, 4, 4]
-
-# name = "Name of the report"
-# image = 'image.png'
 # txtfile = 'text.txt'
 # text = "Placeholder for the text. Overwrite the line with your text." \
 #        "Placeholder for the text. Overwrite the line with your text." \
@@ -122,14 +118,8 @@ class PDFReport(FPDF):
 #        "Placeholder for the text. Overwrite the line with your text." \
 #        "Placeholder for the text. Overwrite the line with your text." \
 #        "Placeholder for the text. Overwrite the line with your text."
-
-# pdf = PDFReport(headertext, footertext)
-# pdf.add_page()
-
+#
 # pdf.set_margins(left=10, top=10, right=10)
 # #pdf.line(105, 0, 105, 297) #line in the middle of the page A4 (210 mm * 297 mm)
-# pdf.set_xy(0, 0)
-
-# pdf.ln(20)
 
 # pdf.output('Report.pdf', dest='F') #local file
