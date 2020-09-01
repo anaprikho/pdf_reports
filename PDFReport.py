@@ -14,20 +14,20 @@ class PDFReport(FPDF):
 
     def header(self):
         self.set_font('arial', 'I', 12)
-        self.cell(0, 10, self.headertext, 1, 0, 'C')
+        self.cell(0, 10, self.headertext, 1, 0, 'C') #change '1' to '0' to hide the cell frame
         self.image('logo.png', x=175, y=10, w=15, type='', link='')
         self.ln(15)
 
     def footer(self):
         self.set_font('arial', 'I', 12)
         self.set_y(-20)
-        self.cell(0, 10, self.footertext + "/Page " + str(self.page_no()), 1, 0, 'C')
+        self.cell(0, 10, self.footertext + "/Page " + str(self.page_no()), 1, 0, 'C') #change '1' to '0' to hide the cell frame
 
     #set a report's title
     def set_name(self, name, y):
         self.set_xy(10, y)
         self.set_font('arial', 'B', 20)
-        self.cell(0, 20, '%s' % str(name), 1, 2, 'C')
+        self.cell(0, 20, '%s' % str(name), 1, 2, 'C')#change '1' to '0' to hide the cell frame
         self.ln(15)
 
     #create a table from a dataframe
@@ -53,7 +53,7 @@ class PDFReport(FPDF):
 
     #insert an image at the current position (x,y) and specify its width
     def insert_image(self, image, width):
-        self.image(image, x=None, y=None, w=width, type='', link='') #x=130, y=90
+        self.image(image, x=None, y=None, w=width, type='', link='')
 
     # def insert_image(self, image, i):
     #     if i == 1:
