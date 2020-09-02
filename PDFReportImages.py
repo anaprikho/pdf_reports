@@ -18,18 +18,18 @@ class PDFReportImages(PDFReport):
     y1 = pdf.get_y()  # an 'y' coordinate of the first line
     y2 = y1 + w + 10  # an 'y' coordinate of the second line
 
-    # ---the fisrt line, 2 images---
+    # ---the fisrt line, first page, 2 images---
     pdf.image('image.png', x=x1, y=y1, w=w)  # left column
     pdf.image('image.png', x=x2, y=y1, w=w)  # right column
 
-    # ---the second line, 2 images---
+    # ---the second line, first page, 2 images---
     pdf.image('image.png', x=x1, y=y2, w=w)  # left column
     pdf.image('image.png', x=x2, y=y2, w=w)  # right column
 
     pdf.add_page()  # add new page
     y3 = pdf.get_y() + 15  # get an 'y' value after adding header
 
-    # ---the second line, 2 images---
+    # ---the first line, second page, 2 images---
     pdf.image('image.png', x=x1, y=y3, w=w)  # left column
     pdf.image('image.png', x=x2, y=y3, w=w)  # right column
 
