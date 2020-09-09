@@ -15,7 +15,7 @@ class PDFReport(FPDF):
     def header(self):
         self.set_font('arial', 'I', 12)
         self.cell(0, 10, self.headertext, 1, 0, 'C') #change '1' to '0' to hide the cell frame
-        self.image('logo.png', x=175, y=10, w=15, type='', link='')
+        #self.image('logo.png', x=175, y=10, w=15, type='', link='')
         self.ln(15)
 
     def footer(self):

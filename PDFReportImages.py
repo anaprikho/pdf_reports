@@ -1,36 +1,64 @@
 from PDFReport import PDFReport
+from PIL import Image
 
 #---The class create an object of the PDFReport class
 #---and placed images at the specific coordinates (the size of the A4 page is 210*297 mm)
 class PDFReportImages(PDFReport):
 
-    headertext = "Placeholder for the header"  # set text for the header
-    footertext = "Placeholder for the footer"  # set text for the footer
-    name = "Report only with images"  # title placed in the report
+    def __init__(self, headertext, footertext, name):
+        super().__init__(headertext, footertext)
+        self.headertext = headertext
+        self.footertext = footertext
+        self.name = name
+        self.add_page()
+        self.set_name(name, 30) #the second argument is an 'y' coordinate of the title cell, the 'x' is already set as 10
 
-    pdf = PDFReport(headertext, footertext)  # create a PDFReport object
-    pdf.add_page()
-    pdf.set_name(name, 30)  # the second argument is an 'y' coordinate of the title cell, the 'x' is already set as 10
+    def add_single_image(self, image, width):
+        self.image(image, x = None, y = None, w = width)
 
-    x1 = 10  # position of the left column
-    x2 = 110  # position of the right column
-    w = 90  # the width of an imgage, the height will be calculated automatically
-    y1 = pdf.get_y()  # an 'y' coordinate of the first line
-    y2 = y1 + w + 10  # an 'y' coordinate of the second line
+    def fill_with_images(self, list_of_images):
+        width_list = []
+        height_list = []
+        width_row = 190
+        for img in list_of_images:
+            x, y = self.get_x(), self.get_y()
+            print (x, y)
 
-    # ---the fisrt line, first page, 2 images---
-    pdf.image('image.png', x=x1, y=y1, w=w)  # left column
-    pdf.image('image.png', x=x2, y=y1, w=w)  # right column
+            im = Image.open(img, 'r')
+            width, height = im.size
+            width_list.append(width)
+            height_list.append(height)
 
-    # ---the second line, first page, 2 images---
-    pdf.image('image.png', x=x1, y=y2, w=w)  # left column
-    pdf.image('image.png', x=x2, y=y2, w=w)  # right column
+            self.image(img)
+            self.set_xy(x=x + width + 10, y=y + height + 10)
+        print(width_list)
 
-    pdf.add_page()  # add new page
-    y3 = pdf.get_y() + 15  # get an 'y' value after adding header
+    # x1 = 10  # position of the left column
+    # x2 = 110  # position of the right column
+    # w = 90  # the width of an imgage, the height will be calculated automatically
+    # y1 = pdf.get_y()  # an 'y' coordinate of the first line
+    # y2 = y1 + w + 10  # an 'y' coordinate of the second line
+    #
+    # # ---the fisrt line, first page, 2 images---
+    # pdf.image('image.png', x=x1, y=y1, w=w)  # left column
+    # pdf.image('image.png', x=x2, y=y1, w=w)  # right column
+    #
+    # # ---the second line, first page, 2 images---
+    # pdf.image('image.png', x=x1, y=y2, w=w)  # left column
+    # pdf.image('image.png', x=x2, y=y2, w=w)  # right column
+    #
+    # pdf.add_page()  # add new page
+    # y3 = pdf.get_y() + 15  # get an 'y' value after adding header
+    #
+    # # ---the first line, second page, 2 images---
+    # pdf.image('image.png', x=x1, y=y3, w=w)  # left column
+    # pdf.image('image.png', x=x2, y=y3, w=w)  # right column
+    #
+    # pdf.output('ReportImages.pdf', dest='F')  # name the pdf file and store it in the projet's folder
 
-    # ---the first line, second page, 2 images---
-    pdf.image('image.png', x=x1, y=y3, w=w)  # left column
-    pdf.image('image.png', x=x2, y=y3, w=w)  # right column
-
-    pdf.output('ReportImages.pdf', dest='F')  # name the pdf file and store it in the projet's folder
+pdf = PDFReportImages("header", "footer", "Name of the report")
+#pdf.add_single_image('image.png', width = 60)
+pdf.fill_with_images(['images/bild1.png', 'images/bild2.png',
+                      'images/bild1.png', 'images/bild2.png',
+                      'images/bild1.png', 'images/bild2.png'])
+pdf.output('ReportImages.pdf', dest='F')  # name the pdf file and store it in the projet's folder
