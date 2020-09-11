@@ -16,22 +16,56 @@ class PDFReportImages(PDFReport):
     def add_single_image(self, image, width):
         self.image(image, x = None, y = None, w = width)
 
-    def fill_with_images(self, list_of_images):
+    def fill_with_images(self, list_of_images, no_per_site):
         width_list = []
         height_list = []
-        width_row = 190
-        for img in list_of_images:
-            x, y = self.get_x(), self.get_y()
-            print (x, y)
+        width_row_limit = 190
 
-            im = Image.open(img, 'r')
-            width, height = im.size
-            width_list.append(width)
-            height_list.append(height)
+        no_per_column = 2
+        if (no_per_site % 2) == 0:
+            no_per_row = int(no_per_site / 2)
+        else:
+            no_per_row = int(no_per_site / 2 + 1)
 
-            self.image(img)
-            self.set_xy(x=x + width + 10, y=y + height + 10)
-        print(width_list)
+        width_of_image = int((width_row_limit - 5 * (no_per_row - 1)) / no_per_row) #5 mm distance between images in a row
+        x, y = self.get_x(), self.get_y()
+
+        for j in range(0, no_per_column):
+            for i in range(0, no_per_row):
+
+                if j == 0:
+                    try:
+                        #if i == 0: x, y = self.get_x(), self.get_y()
+                        self.image(list_of_images[i],x = x, y = y, w = width_of_image)
+                        x, y = x + width_of_image + 5, y
+                    except IndexError as error:
+                        pass
+
+                if j == 1:
+                    try:
+                        if i == 0: x, y = 10, y + 115
+                        self.image(list_of_images[i + no_per_row], x=x, y=y, w=width_of_image)
+                        x, y = x + width_of_image + 5, y
+                    except IndexError as error:
+                        # Output expected IndexErrors.
+                        pass
+        print(no_per_row)
+
+
+
+        # for img in list_of_images:
+        #
+        #     x, y = self.get_x(), self.get_y()
+        #     print(x, y)
+        #
+        #     im = Image.open(img, 'r')
+        #     width, height = im.size
+        #     width_list.append(width)
+        #     height_list.append(height)
+        #
+        #     self.image(img)
+        #     self.set_xy(x=x + width + 10, y=y + height + 10)
+        # print(width_list)
 
     # x1 = 10  # position of the left column
     # x2 = 110  # position of the right column
@@ -60,5 +94,5 @@ pdf = PDFReportImages("header", "footer", "Name of the report")
 #pdf.add_single_image('image.png', width = 60)
 pdf.fill_with_images(['images/bild1.png', 'images/bild2.png',
                       'images/bild1.png', 'images/bild2.png',
-                      'images/bild1.png', 'images/bild2.png'])
+                      'images/bild1.png', 'images/image.png'], 7)
 pdf.output('ReportImages.pdf', dest='F')  # name the pdf file and store it in the projet's folder
