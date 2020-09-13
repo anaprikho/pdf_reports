@@ -15,17 +15,17 @@ class PDFReportImages(PDFReport):
         self.image(image, x=None, y=None, w=width)
         self.ln(5)
 
-    def fill_with_images(self, list_of_images, no_per_site):
+    def fill_with_images(self, list_of_images, no_per_row):
 
         width_row_limit = 190  # the width of an A4 page is 210 mm, left and right margins are 10 mm : (210-10*2)
-        no_per_column = 2  # desired number of columns on one page, may differ to the real number if there is not
-        # enough place due to calculated width
-
-        if (no_per_site % no_per_column) == 0:  # calculated a number of images to be placed in a row
-            # no_per_row is actually the number of columns
-            no_per_row = int(no_per_site / no_per_column)
-        else:
-            no_per_row = int(no_per_site / no_per_column + 1)
+        # no_per_column = 2  # desired number of columns on one page, may differ to the real number if there is not
+        # # enough place due to calculated width
+        #
+        # if (no_per_site % no_per_column) == 0:  # calculated a number of images to be placed in a row
+        #     # no_per_row is actually the number of columns
+        #     no_per_row = int(no_per_site / no_per_column)
+        # else:
+        #     no_per_row = int(no_per_site / no_per_column + 1)
 
         width_of_image = int(  # calculate a width of a single image, a height will be then automatically calculated
             (width_row_limit - 5 * (no_per_row - 1)) / no_per_row)  # 5 mm distance between images in a row
@@ -68,6 +68,5 @@ pdf.fill_with_images(['images/bild1.png', 'images/bild2.png',
                       'images/bild1.png', 'images/bild2.png',
                       'images/image.png', 'images/bild2.png',
                       'images/bild1.png', 'images/bild2.png'],
-                     no_per_site=8)  # the second argument is the number of images placed on a page
-# uneven number will be rounded up.
-pdf.output('ReportImages.pdf', dest='F')  # name the pdf file and store it in the projet's folder
+                     no_per_row=13)  # the second argument is the number of images to be placed in one row
+pdf.output('ReportImages.pdf', dest='F')  # name the pdf file and store it in the project's folder
