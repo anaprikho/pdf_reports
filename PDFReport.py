@@ -10,7 +10,8 @@ class PDFReport(FPDF):
         super().__init__()
         self.headertext = headertext
         self.footertext = footertext
-        self.set_margins(left=10, top=10, right=10)
+        self.set_margins(left=10, top=5, right=10)
+        #self.set_auto_page_break(10)
 
     def header(self):
         self.set_font('arial', 'I', 12)
@@ -20,12 +21,12 @@ class PDFReport(FPDF):
 
     def footer(self):
         self.set_font('arial', 'I', 12)
-        self.set_y(-20)
+        self.set_y(-15)
         self.cell(0, 10, self.footertext + "/Page " + str(self.page_no()), 1, 0, 'C') #change '1' to '0' to hide the cell frame
 
     #set a report's title
-    def set_name(self, name, y):
-        self.set_xy(10, y)
+    def set_name(self, name):
+        self.set_xy(10, self.get_y())
         self.set_font('arial', 'B', 20)
         self.cell(0, 20, '%s' % str(name), 1, 2, 'C')#change '1' to '0' to hide the cell frame
         self.ln(15)
