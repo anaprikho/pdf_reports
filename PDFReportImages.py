@@ -68,5 +68,5 @@ pdf.fill_with_images(['images/bild1.png', 'images/bild2.png',
                       'images/bild1.png', 'images/bild2.png',
                       'images/image.png', 'images/bild2.png',
                       'images/bild1.png', 'images/bild2.png'],
-                     no_per_row=13)  # the second argument is the number of images to be placed in one row
+                     no_per_row=5)  # the second argument is the number of images to be placed in one row
 pdf.output('ReportImages.pdf', dest='F')  # name the pdf file and store it in the project's folder
