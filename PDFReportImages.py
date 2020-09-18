@@ -76,21 +76,20 @@ class PDFReportImages(PDFReport):
 
 pdf = PDFReportImages("header", "footer", "Name of the report", logo_flag=True)
 
-pdf.add_image('images/bild1.png', 60)
-pdf.fill_with_images(['images/bild1.png', 'images/bild2.png',
-                      'images/bild1.png', 'images/bild2.png',
-                      'images/bild1.png', 'images/image.png',
-                      'images/bild1.png', 'images/bild2.png',
-                      'images/bild1.png', 'images/bild2.png',
-                      'images/bild1.png', 'images/bild2.png',
-                      'images/image.png', 'images/bild2.png',
-                      'images/bild1.png', 'images/bild2.png'],
+pdf.add_image('images/image1.png', 60)
+pdf.fill_with_images(['images/image1.png', 'images/image2.png',
+                      'images/image1.png', 'images/image2.png',
+                      'images/image3.png', 'images/image1.png',
+                      'images/image1.png', 'images/image3.png',
+                      'images/image1.png', 'images/image3.png',
+                      'images/image1.png', 'images/image2.png',
+                      'images/image2.png', 'images/image2.png',
+                      'images/image1.png', 'images/image3.png'],
                      no_per_row=5)  # the second argument is the number of images to be placed in one row
-pdf.add_image('images/bild1.png', 60)
-pdf.add_image('images/bild1.png', 60)
-pdf.add_image('images/image.png', 60)
-pdf.add_image('images/image.png', 60)
-pdf.add_image('images/bild1.png', 60)
-pdf.add_image('images/image.png', 60)
+pdf.add_image('images/image1.png', 60)
+pdf.add_image('images/image1.png', 60)
+pdf.add_image('images/image1.png', 60)
+pdf.add_image('images/image1.png', 60)
+pdf.add_image('images/image1.png', 60)
 
 pdf.output('ReportImages.pdf', dest='F')  # name the pdf file and store it in the project's folder
