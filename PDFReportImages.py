@@ -3,17 +3,19 @@ from PIL import Image
 from PDFReport import PDFReport
 
 
-# ---The class create an object of the PDFReport class
-# ---and placed images at the specific coordinates (the size of the A4 page is 210*297 mm)
+# ---The class inherits from the PDFReport class
+# ---there are two functions for inserting images (after each other or in a row)
+# ---the size of the A4 page is 210*297 mm
 class PDFReportImages(PDFReport):
     x_global, y_global = 10, 45  # set x, y right after the title(name)
 
-    # ---construct overrides the initial one (name is added)---
+    # ---overriding a superclass constructor (name is added)---
     def __init__(self, headertext, footertext, name, logo_flag):
-        super().__init__(headertext, footertext,logo_flag)
+        super().__init__(headertext, footertext, logo_flag)
         self.name = name
         self.add_page()
         self.set_name(name)
+
     # ---adds single images separately under each other---
     def add_image(self, image, width):
 

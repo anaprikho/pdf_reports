@@ -4,7 +4,8 @@ import numpy as np
 
 
 # ---The class defines all the functions used for creation a pdf report
-# ---to hide the cell frames change '1' to '0' in the self.cell() in header, footer, set_name functions
+# ---to hide the cell frames (if visible) change '1' to '0' in the self.cell() in header, footer, set_name functions
+# ---the size of the A4 page is 210*297 mm
 class PDFReport(FPDF):
 
     # constructor of the class takes parameters as headertext, footertext and name(title) of the report
@@ -18,7 +19,7 @@ class PDFReport(FPDF):
 
     def header(self):
         self.set_font('arial', 'I', 12)
-        self.cell(0, 10, self.headertext, 1, 0, 'C')  # !change '1' to '0' to hide the cell frame
+        self.cell(0, 10, self.headertext, 0, 0, 'C')  # change '1' to '0' to hide the cell frame
         if self.logo_flag:
             self.image('logo.png', x=187, y=3, w=10, type='', link='')
         self.ln(15)
@@ -26,13 +27,13 @@ class PDFReport(FPDF):
     def footer(self):
         self.set_font('arial', 'I', 12)
         self.set_y(-15)
-        self.cell(0, 10, self.footertext, 1, 0, 'C')  # !change '1' to '0' to hide the cell frame
+        self.cell(0, 10, self.footertext, 0, 0, 'C')  # change (if '1') '1' to '0' to hide the cell frame
 
     # set a report's title
     def set_name(self, name):
         self.set_xy(10, self.get_y())
         self.set_font('arial', 'B', 20)
-        self.cell(0, 20, '%s' % str(name), 1, 2, 'C')  # !change '1' to '0' to hide the cell frame
+        self.cell(0, 20, '%s' % str(name), 0, 2, 'C')  # change (if '1') '1' to '0' to hide the cell frame
         self.ln(15)
 
     # create a table from a dataframe
@@ -59,13 +60,6 @@ class PDFReport(FPDF):
     # insert an image at the current position (x,y) and specify its width
     def insert_image(self, image, width):
         self.image(image, x=None, y=None, w=width, type='', link='')
-
-    # def insert_image(self, image, i):
-    #     if i == 1:
-    #         self.image(image, x=None, y=None, w=40, type='', link='')
-    #     else:
-    #         for i in range(0, i-1):
-    #             self.image(image, x=None, y=None, w=80, type='', link='')
 
     # write a text from a txt file in the left column
     def write_left_from_textfile(self, txtfile):
@@ -107,24 +101,3 @@ class PDFReport(FPDF):
             self.cell(30, 10, '%s' % str(df_2.A.iloc[i]), 1, 0, 'C')
             self.cell(30, 10, '%s' % str(df_2.B.iloc[i]), 1, 2, 'C')
             self.cell(-60)
-
-# df = pd.DataFrame()
-# df['Number'] = ["1", "2", "3", "4"]
-# df['A'] = [3, 4, 5, 3]
-# df['B'] = [3, 3, 4, 4]
-# txtfile = 'text.txt'
-# text = "Placeholder for the text. Overwrite the line with your text." \
-#        "Placeholder for the text. Overwrite the line with your text." \
-#        "Placeholder for the text. Overwrite the line with your text." \
-#        "Placeholder for the text. Overwrite the line with your text." \
-#        "Placeholder for the text. Overwrite the line with your text." \
-#        "Placeholder for the text. Overwrite the line with your text." \
-#        "Placeholder for the text. Overwrite the line with your text." \
-#        "Placeholder for the text. Overwrite the line with your text." \
-#        "Placeholder for the text. Overwrite the line with your text." \
-#        "Placeholder for the text. Overwrite the line with your text."
-#
-# pdf.set_margins(left=10, top=10, right=10)
-# #pdf.line(105, 0, 105, 297) #line in the middle of the page A4 (210 mm * 297 mm)
-
-# pdf.output('Report.pdf', dest='F') #local file
