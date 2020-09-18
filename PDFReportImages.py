@@ -1,9 +1,12 @@
+from PIL import Image
+
 from PDFReport import PDFReport
 
 
 # ---The class create an object of the PDFReport class
 # ---and placed images at the specific coordinates (the size of the A4 page is 210*297 mm)
 class PDFReportImages(PDFReport):
+    x_global, y_global = 0, 0
 
     def __init__(self, headertext, footertext, name):
         super().__init__(headertext, footertext)
@@ -15,17 +18,31 @@ class PDFReportImages(PDFReport):
         self.image(image, x=None, y=None, w=width)
         self.ln(5)
 
+    def add_image(self, image, width):
+        #self.image(image, x=PDFReportImages.x_global, y=PDFReportImages.y_global, w=width)
+        #PDFReportImages.y_global += 2.3 * width
+
+        im = Image.open(image, 'r')
+        width_original, height_original = im.size
+        #width_list.append(width)
+        #height_list.append(height)
+        cor_height_to_width = round(height_original / width_original, 2)
+        print(cor_height_to_width)
+
+        if PDFReportImages.y_global + cor_height_to_width * width > (
+                # check if there is enough place for one more row on a page
+                297 - 15) and self.accept_page_break():  # 297 mm is width of A4, 5+10 mm from the bottom to the footer
+            self.add_page(self.cur_orientation)
+            PDFReportImages.x_global, PDFReportImages.y_global = 10, 20  # set coordinates right below the header
+            self.image(image, x=PDFReportImages.x_global, y=PDFReportImages.y_global, w=width)
+            PDFReportImages.y_global += (cor_height_to_width + 0.1) * width
+        else:
+            self.image(image, x=PDFReportImages.x_global, y=PDFReportImages.y_global, w=width)
+            PDFReportImages.y_global += (cor_height_to_width + 0.1) * width
+
     def fill_with_images(self, list_of_images, no_per_row):
 
         width_row_limit = 190  # the width of an A4 page is 210 mm, left and right margins are 10 mm : (210-10*2)
-        # no_per_column = 2  # desired number of columns on one page, may differ to the real number if there is not
-        # # enough place due to calculated width
-        #
-        # if (no_per_site % no_per_column) == 0:  # calculated a number of images to be placed in a row
-        #     # no_per_row is actually the number of columns
-        #     no_per_row = int(no_per_site / no_per_column)
-        # else:
-        #     no_per_row = int(no_per_site / no_per_column + 1)
 
         width_of_image = int(  # calculate a width of a single image, a height will be then automatically calculated
             (width_row_limit - 5 * (no_per_row - 1)) / no_per_row)  # 5 mm distance between images in a row
@@ -55,11 +72,15 @@ class PDFReportImages(PDFReport):
             # check if there is enough place for one more row on a page
                     297 - 15) and self.accept_page_break():  # 297 mm is width of A4, 5+10 mm from the bottom to the footer
                 self.add_page(self.cur_orientation)
-                x, y = 10, 30  # set coordinates right below the header
+                x, y = 10, 20  # set coordinates right below the header
+
+        PDFReportImages.x_global = x
+        PDFReportImages.y_global = y
 
 
 pdf = PDFReportImages("header", "footer", "Name of the report")
 
+#pdf.add_image('images/bild1.png', 60)
 pdf.fill_with_images(['images/bild1.png', 'images/bild2.png',
                       'images/bild1.png', 'images/bild2.png',
                       'images/bild1.png', 'images/image.png',
@@ -69,4 +90,10 @@ pdf.fill_with_images(['images/bild1.png', 'images/bild2.png',
                       'images/image.png', 'images/bild2.png',
                       'images/bild1.png', 'images/bild2.png'],
                      no_per_row=5)  # the second argument is the number of images to be placed in one row
+pdf.add_image('images/bild1.png', 60)
+pdf.add_image('images/bild1.png', 60)
+pdf.add_image('images/image.png', 60)
+pdf.add_image('images/image.png', 60)
+pdf.add_image('images/bild1.png', 60)
+pdf.add_image('images/image.png', 60)
 pdf.output('ReportImages.pdf', dest='F')  # name the pdf file and store it in the project's folder
